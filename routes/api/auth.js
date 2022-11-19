@@ -6,14 +6,20 @@ const { ctrlWrapper } = require("../../helpers");
 const { validateBody, authenticate, upload } = require("../../middlewares");
 const { authSchemas } = require("../../models/user");
 
-// signup
+// register user
 router.post(
   "/register",
   validateBody(authSchemas.registerSchema),
   ctrlWrapper(ctrl.register)
 );
+router.get("/verify/:verificationToken", ctrlWrapper(ctrl.verify));
+router.post(
+  "verify",
+  validateBody(authSchemas.verifyEmailSchema),
+  ctrlWrapper(ctrl.resendEmail)
+);
 
-// signin
+// login user
 router.post(
   "/login",
   validateBody(authSchemas.loginSchema),
